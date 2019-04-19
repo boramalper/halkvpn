@@ -25,20 +25,29 @@ echo "Sunucunuzun IP adresi: $MY_IP"
 echo "Client: $MY_CLIENT"
 
 # Kur
+echo "==== Volume yaratılıyor"
 docker volume create --name $OVPN_DATA
+echo "==== genconfig"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u "udp://$MY_IP"
+echo "==== initpki"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn bash -c "echo \"HalkVPN CA\" | ovpn_initpki nopass"
 
 # Çoklu bağlantılara izin ver.
+echo "==== duplicate-cn"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn bash -c "printf \"\n# HalkVPN CA\nduplicate-cn\n\" >> /etc/openvpn/openvpn.conf"
 
 # Profil oluştur.
+echo "==== Profil Oluşturuluyor"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn easyrsa build-client-full $MY_CLIENT nopass
 
 # Profili indir.
+echo "==== Profil dışa aktarılıyor"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_getclient $MY_CLIENT > $MY_CLIENT.ovpn
 
 # systemd
+echo "==== systemd curl"
 curl -L https://raw.githubusercontent.com/kylemanna/docker-openvpn/master/init/docker-openvpn%40.service | sudo tee /etc/systemd/system/docker-openvpn@.service
+echo "==== systemd enable"
 systemctl enable --now docker-openvpn@halkvpn.service
+echo "==== systemd status"
 systemctl --no-pager status docker-openvpn@halkvpn.service
