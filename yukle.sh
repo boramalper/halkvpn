@@ -19,7 +19,7 @@ command -v docker >/dev/null 2>&1 || {
 
 OVPN_DATA="ovpn-data-halkvpn"
 MY_IP=`dig -4 @resolver1.opendns.com ANY myip.opendns.com +short`
-MY_CLIENT="halkvpn-`echo $MY_IP | sed s/\\\\./_/g`"
+MY_CLIENT="halkvpn-client"
 
 echo "Sunucunuzun IP adresi: $MY_IP"
 echo "Client: $MY_CLIENT"
