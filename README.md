@@ -25,7 +25,8 @@
    [Vultr](https://www.vultr.com/?ref=8038248) iyi bir seçimdir.
    - Kayıt olduktan sonra sunucunuzu seçerken işletim sistemi olarak 
      **64-bit Ubuntu 18.04**'ü seçin.
-2. Uzaktan Kurulum Sihirbazını [indirin]() (Windows PC gerektirir).
+2. Uzaktan Kurulum Sihirbazını [indirin](https://github.com/boramalper/halkvpn/releases/download/v0.1.0/sihirbaz.zip) (Windows PC gerektirir).
+   - zip dosyasını çıkartın.
 3. `sihirbaz.vbs` dosyasına çift tıklayıp çalıştırın, sihirbazın yönergelerini
    takip edin.
 4. Sihirbaz tamamlandığında masaüstünüzde `halkvpn-client.ovpn` dosyası hazır
