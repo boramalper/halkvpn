@@ -30,15 +30,15 @@ docker volume create --name $OVPN_DATA
 echo "==== genconfig"
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u "udp://$MY_IP"
 echo "==== initpki"
-docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn bash -c "echo \"HalkVPN CA\" | ovpn_initpki nopass"
+docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn bash -c "echo \"HalkVPN CA\" | ovpn_initpki nopass"
 
 # Çoklu bağlantılara izin ver.
 echo "==== duplicate-cn"
-docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn bash -c "printf \"\n# HalkVPN CA\nduplicate-cn\n\" >> /etc/openvpn/openvpn.conf"
+docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn bash -c "printf \"\n# HalkVPN CA\nduplicate-cn\n\" >> /etc/openvpn/openvpn.conf"
 
 # Profil oluştur.
 echo "==== Profil Oluşturuluyor"
-docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn easyrsa build-client-full $MY_CLIENT nopass
+docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn easyrsa build-client-full $MY_CLIENT nopass
 
 # Profili indir.
 echo "==== Profil dışa aktarılıyor"
